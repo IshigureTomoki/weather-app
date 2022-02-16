@@ -37,21 +37,21 @@ function App() {
         console.log(currentTime);
 
         const get_wind_deg=(wind_deg:number)=>{
-          let r = '北↓';
+          let r = '北';
           if (wind_deg>=11.25) r = '北北東';
-          if (wind_deg>=33.75) r = '北東↙︎';
+          if (wind_deg>=33.75) r = '北東';
           if (wind_deg>=56.25) r = '東北東';
-          if (wind_deg>=78.75) r = '東←';
+          if (wind_deg>=78.75) r = '東';
           if (wind_deg>=101.25) r = '東南東';
-          if (wind_deg>=123.75) r = '南東↖︎';
+          if (wind_deg>=123.75) r = '南東';
           if (wind_deg>=146.25) r = '南南東';
-          if (wind_deg>=168.75) r = '南↑';
+          if (wind_deg>=168.75) r = '南';
           if (wind_deg>=191.25) r = '南南西';
-          if (wind_deg>=213.75) r = '南西↗︎';
+          if (wind_deg>=213.75) r = '南西';
           if (wind_deg>=236.25) r = '西南西';
-          if (wind_deg>=258.75) r = '西→';
+          if (wind_deg>=258.75) r = '西';
           if (wind_deg>=281.25) r = '西北西';
-          if (wind_deg>=303.75) r = '北西↘︎';
+          if (wind_deg>=303.75) r = '北西';
           if (wind_deg>=326.25) r = '北北西';
           return r;
         }
@@ -60,10 +60,15 @@ function App() {
           time: currentTime,
           timezone:res.data.timezone,
           temp: res.data.current.temp,
+          //体感温度
           feels_like: res.data.current.feels_like,
+          // 風向き
           wind_deg: get_wind_deg(res.data.current.wind_deg),
+          // 風速
           wind_speed: res.data.current.wind_speed,
+          // 気圧
           pressure: res.data.current.pressure,
+          // 湿度
           humidity: res.data.current.humidity,
           weatherDescription: res.data.current.weather[0].description,
           weatherIcon: `http://openweathermap.org/img/wn/${res.data.current.weather[0].icon}@2x.png`,

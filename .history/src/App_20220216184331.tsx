@@ -37,9 +37,9 @@ function App() {
         console.log(currentTime);
 
         const get_wind_deg=(wind_deg:number)=>{
-          let r = '北↓';
+          let r = '北';
           if (wind_deg>=11.25) r = '北北東';
-          if (wind_deg>=33.75) r = '北東↙︎';
+          if (wind_deg>=33.75) r = '北東👈';
           if (wind_deg>=56.25) r = '東北東';
           if (wind_deg>=78.75) r = '東←';
           if (wind_deg>=101.25) r = '東南東';

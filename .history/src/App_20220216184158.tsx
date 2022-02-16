@@ -37,21 +37,21 @@ function App() {
         console.log(currentTime);
 
         const get_wind_deg=(wind_deg:number)=>{
-          let r = '北↓';
+          let r = '北';
           if (wind_deg>=11.25) r = '北北東';
-          if (wind_deg>=33.75) r = '北東↙︎';
+          if (wind_deg>=33.75) r = '北東';
           if (wind_deg>=56.25) r = '東北東';
-          if (wind_deg>=78.75) r = '東←';
+          if (wind_deg>=78.75) r = '東';
           if (wind_deg>=101.25) r = '東南東';
-          if (wind_deg>=123.75) r = '南東↖︎';
+          if (wind_deg>=123.75) r = '南東';
           if (wind_deg>=146.25) r = '南南東';
-          if (wind_deg>=168.75) r = '南↑';
+          if (wind_deg>=168.75) r = '南矢印';
           if (wind_deg>=191.25) r = '南南西';
           if (wind_deg>=213.75) r = '南西↗︎';
           if (wind_deg>=236.25) r = '西南西';
-          if (wind_deg>=258.75) r = '西→';
+          if (wind_deg>=258.75) r = '西';
           if (wind_deg>=281.25) r = '西北西';
-          if (wind_deg>=303.75) r = '北西↘︎';
+          if (wind_deg>=303.75) r = '北西';
           if (wind_deg>=326.25) r = '北北西';
           return r;
         }

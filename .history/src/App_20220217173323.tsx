@@ -149,11 +149,11 @@ function App() {
         </>
       ))}
 
-      <h3>1時間毎の天気予報</h3>
+      <h3>8日間天気予報</h3>
       {weatherHourlyReports.map((report) => (
         <>
           <div>
-            {date_time(report.dt)}
+            {day_time(report.dt)}
             <img
               src={`http://openweathermap.org/img/wn/${report.weather[0].icon}@2x.png`}
               alt="icon"

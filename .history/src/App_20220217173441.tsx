@@ -149,7 +149,7 @@ function App() {
         </>
       ))}
 
-      <h3>1時間毎の天気予報</h3>
+      <h3>天気予報</h3>
       {weatherHourlyReports.map((report) => (
         <>
           <div>

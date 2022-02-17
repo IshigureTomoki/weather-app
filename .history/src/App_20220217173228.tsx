@@ -149,16 +149,16 @@ function App() {
         </>
       ))}
 
-      <h3>1時間毎の天気予報</h3>
-      {weatherHourlyReports.map((report) => (
+      <h3>8日間天気予報</h3>
+      {weatherhourlyReports.map((report) => (
         <>
           <div>
-            {date_time(report.dt)}
+            {day(report.dt)}
             <img
               src={`http://openweathermap.org/img/wn/${report.weather[0].icon}@2x.png`}
               alt="icon"
             />
-            {report.temp}℃ {report.weather[0].description}
+            {report.temp.max}/{report.temp.min}℃ {report.weather[0].description}
           </div>
         </>
       ))}

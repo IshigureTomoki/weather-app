@@ -36,26 +36,13 @@ function App() {
     ];
   };
 
-  type weatherHourlyReportsType = {
-    dt: number;
-    temp: string;
-    weather: [
-      {
-        description: string;
-        icon: string;
-        id: string;
-        main: string;
-      }
-    ];
-  };
+  type weather
   const [weatherReport, setWeatherReport] = useState<weatherReportType>();
   const [weatherDailyReports, setWeatherDailyReports] = useState<
     weatherDailyReportsType[]
   >([]);
 
-  const [weatherHourlyReports, setWeatherHourlyReports] = useState<
-    weatherHourlyReportsType[]
-  >([]);
+const [weatherHourlyReports,setWeatherHourlyReports]=useState<weatherHourlyReports[]>([]);
   const [serchCity, setSearchCity] = useState("");
 
   const date_time = (dt: number) => {
@@ -78,6 +65,8 @@ function App() {
       )
       .then((res) => {
         console.log(res);
+
+
 
         const get_wind_deg = (wind_deg: number) => {
           let r = "北↓";
@@ -112,10 +101,11 @@ function App() {
           weatherIcon: `http://openweathermap.org/img/wn/${res.data.current.weather[0].icon}@2x.png`,
         };
 
+        const reports = res.data.daily;
+
         console.log(report);
         setWeatherReport(report);
-        setWeatherDailyReports(res.data.daily);
-        setWeatherHourlyReports(res.data.hourly);
+        setWeatherDailyReports(reports);
       });
   };
   return (
@@ -138,27 +128,12 @@ function App() {
       <h3>8日間天気予報</h3>
       {weatherDailyReports.map((report) => (
         <>
-          <div>
-            {day(report.dt)}
+          <div>{day(report.dt)} 
             <img
               src={`http://openweathermap.org/img/wn/${report.weather[0].icon}@2x.png`}
               alt="icon"
             />
             {report.temp.max}/{report.temp.min}℃ {report.weather[0].description}
-          </div>
-        </>
-      ))}
-
-      <h3>1時間毎の天気予報</h3>
-      {weatherHourlyReports.map((report) => (
-        <>
-          <div>
-            {date_time(report.dt)}
-            <img
-              src={`http://openweathermap.org/img/wn/${report.weather[0].icon}@2x.png`}
-              alt="icon"
-            />
-            {report.temp}℃ {report.weather[0].description}
           </div>
         </>
       ))}

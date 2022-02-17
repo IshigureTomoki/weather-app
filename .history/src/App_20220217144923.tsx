@@ -20,57 +20,36 @@ function App() {
     weatherIcon: string;
   };
 
-  type weatherDailyReportsType = {
-    dt: number;
-    temp: {
-      max: string;
-      min: string;
-    };
-    weather: [
-      {
-        description: string;
-        icon: string;
-        id: string;
-        main: string;
-      }
-    ];
-  };
+  type WetherDailyReportsType={
+    
+clouds: 49
+dew_point: -14.51
+dt: 1645063200
 
-  type weatherHourlyReportsType = {
-    dt: number;
-    temp: string;
-    weather: [
-      {
-        description: string;
-        icon: string;
-        id: string;
-        main: string;
-      }
-    ];
-  };
+temp:
+  day: 7.21
+  eve: 6.38
+  max: 8.03
+  min: 2.8
+  morn: 3.05
+  night: 3.58
+uvi: 2.88
+weather: Array(1)
+  0:
+    description: "小雨"
+    icon: "10d"
+    id: 500
+    main: "Rain"
+  length: 1
+wind_deg: 325
+wind_gust: 11.84
+wind_speed: 10.4
+  }
   const [weatherReport, setWeatherReport] = useState<weatherReportType>();
   const [weatherDailyReports, setWeatherDailyReports] = useState<
-    weatherDailyReportsType[]
-  >([]);
-
-  const [weatherHourlyReports, setWeatherHourlyReports] = useState<
-    weatherHourlyReportsType[]
+    weatherDailyReportType[]
   >([]);
   const [serchCity, setSearchCity] = useState("");
-
-  const date_time = (dt: number) => {
-    const srTime = new Date(dt * 1000);
-    const day = srTime.toLocaleDateString();
-    const time = srTime.toLocaleTimeString();
-    return `${day} ${time}`;
-  };
-
-  const day = (dt: number) => {
-    const srTime = new Date(dt * 1000);
-    const day = srTime.toLocaleDateString();
-    return `${day}`;
-  };
-
   const wetherOneCall = async () => {
     await axios
       .get(
@@ -78,6 +57,13 @@ function App() {
       )
       .then((res) => {
         console.log(res);
+
+        const srTime = new Date(res.data.current.dt * 1000);
+        const day = srTime.toLocaleDateString();
+        const time = srTime.toLocaleTimeString();
+        const currentTime = `${day} ${time}`;
+
+        console.log(currentTime);
 
         const get_wind_deg = (wind_deg: number) => {
           let r = "北↓";
@@ -100,7 +86,7 @@ function App() {
         };
 
         const report = {
-          time: date_time(res.data.current.dt),
+          time: currentTime,
           timezone: res.data.timezone,
           temp: res.data.current.temp,
           feels_like: res.data.current.feels_like,
@@ -112,16 +98,16 @@ function App() {
           weatherIcon: `http://openweathermap.org/img/wn/${res.data.current.weather[0].icon}@2x.png`,
         };
 
+        const reports = res.data.daily;
+
         console.log(report);
         setWeatherReport(report);
-        setWeatherDailyReports(res.data.daily);
-        setWeatherHourlyReports(res.data.hourly);
+        setWeatherDailyReports(reports);
       });
   };
   return (
     <div className="App">
       <h1>天気予報</h1>
-      <h3>現在の天気</h3>
       <div>取得日時：{weatherReport?.time}</div>
       <div>場所：{weatherReport?.timezone}</div>
       <div>天気：{weatherReport?.weatherDescription}</div>
@@ -134,34 +120,10 @@ function App() {
       <div>風速：{weatherReport?.wind_speed}m/s</div>
       <div>気圧：{weatherReport?.pressure}hPa</div>
       <div>湿度：{weatherReport?.humidity}%</div>
-      <br></br>
-      <h3>8日間天気予報</h3>
-      {weatherDailyReports.map((report) => (
-        <>
-          <div>
-            {day(report.dt)}
-            <img
-              src={`http://openweathermap.org/img/wn/${report.weather[0].icon}@2x.png`}
-              alt="icon"
-            />
-            {report.temp.max}/{report.temp.min}℃ {report.weather[0].description}
-          </div>
-        </>
+      {WeatherDailyReports.map((report)=>(
+        {report.}
       ))}
 
-      <h3>1時間毎の天気予報</h3>
-      {weatherHourlyReports.map((report) => (
-        <>
-          <div>
-            {date_time(report.dt)}
-            <img
-              src={`http://openweathermap.org/img/wn/${report.weather[0].icon}@2x.png`}
-              alt="icon"
-            />
-            {report.temp}℃ {report.weather[0].description}
-          </div>
-        </>
-      ))}
     </div>
   );
 }

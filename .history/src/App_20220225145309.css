@@ -1,0 +1,78 @@
+body {
+  font-family: sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+
+.upper {
+  display: flex;
+  justify-content: center;
+}
+.now-area {
+  text-align: center;
+  background-color: aliceblue;
+  width: 400px;
+  padding: 20px;
+  margin: 8px;
+  border-radius: 8px;
+}
+.nowtime {
+  width: 400px;
+}
+
+/* .nowplace{
+
+} */
+
+dt {
+  float: left;
+}
+
+dt::after {
+  content: "：";
+}
+
+.dayly-area {
+  text-align: center;
+  background-color: bisque;
+  width: 400px;
+  padding: 20px;
+  margin: 8px;
+  border-radius: 8px;
+}
+
+.dayly {
+  display: flex;
+}
+
+.daylyd {
+  width: 60px;
+}
+
+.daylyi {
+  width: 90px;
+}
+
+.daylym {
+  width: 150px;
+}
+
+.daylyde {
+  width: 100px;
+}
+
+.hourly-area {
+  background-color: aliceblue;
+  width: 850px;
+  padding: 8px;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+.title {
+  text-align: center;
+  margin: 0px 0px 20px 0px;
+  font-weight: bold;
+  color: #666;
+}

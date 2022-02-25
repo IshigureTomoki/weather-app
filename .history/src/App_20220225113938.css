@@ -1,0 +1,64 @@
+body {
+  font-family: sans-serif;
+}
+
+.now-area {
+  /* text-align: center; */
+  background-color: aliceblue;
+  width: 500px;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px;
+}
+
+dt {
+  float: left;
+}
+
+dt::after {
+  content: "：";
+}
+
+.dayly-area {
+  text-align: center;
+  background-color: bisque;
+  width: 400px;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px;
+}
+
+.dayly {
+  display: flex;
+}
+
+.daylyd {
+  width:60px
+}
+
+.daylyi {
+  width:60px
+}
+
+.daylym {
+  margin:3px
+}
+
+.daylyde {
+  margin:3px
+}
+
+.hourly-area {
+  text-align: center;
+  background-color: aliceblue;
+  width: 900px;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px;
+}
+.title {
+  text-align: center;
+  margin-top: 0;
+  font-weight: bold;
+  color: #666;
+}

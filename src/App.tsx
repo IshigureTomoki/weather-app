@@ -1,14 +1,34 @@
 import axios from "axios";
 import { report } from "process";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { convertTypeAcquisitionFromJson } from "typescript";
 import "./App.css";
 import { LinePlot } from "./components/LinePlot";
+import { fetchLocation } from "./location/action";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const [currentPosition, setCurrentPosition] = useState({
+    lat: 35.69,
+    lon: 139.692,
+  });
+  // const dispatch = useDispatch();
+
   useEffect(() => {
-    wetherOneCall();
+    // geolocation();
+    updatePosition();
+    console.log(currentPosition);
+    // dispatch(fetchLocation())
   }, []);
+  
+  useEffect(() => {
+    if (!loading) {
+    console.log(currentPosition);
+      wetherOneCall(currentPosition);
+    }
+    // dispatch(fetchLocation())
+  }, [loading]);
 
   type weatherReportType = {
     time: string;
@@ -43,6 +63,62 @@ function App() {
     time: string;
     temp: number;
     pop: string;
+  };
+
+  // const geolocation = () => {
+  //   // Geolocation APIに対応している
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const latitude = position.coords.latitude;
+  //         const longitude = position.coords.longitude;
+  //         // const location = { lat: latitude, lon: longitude };
+  //         console.log(position);
+  //         // return location;
+  //         // alert(`Latitude: ${latitude} °, Longitude: ${longitude} °`);
+  //         setCurrentPosition({ lat: latitude, lon: longitude });
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       }
+  //     );
+  //   }
+  //   // Geolocation APIに対応していない
+  //   else {
+  //     // 現在位置を取得できない場合の処理
+  //     alert("あなたの端末では、現在位置を取得できません。");
+  //   }
+  // };
+
+
+  const getCurrentPosition = (): any => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          resolve(position);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  };
+
+  const updatePosition = async () => {
+    setLoading(true);
+    try {
+      const currentPosition = await getCurrentPosition();
+      const new_currentPosition = {
+        lat: currentPosition.coords.latitude,
+        lon: currentPosition.coords.longitude,
+      };
+      console.log(new_currentPosition);
+      setCurrentPosition(new_currentPosition);
+    } catch (error) {
+      console.log(error);
+    }finally{
+      setLoading(false);
+    }
   };
 
   const [weatherReport, setWeatherReport] = useState<weatherReportType>();
@@ -86,10 +162,11 @@ function App() {
     return `(${dayOfWeekStrJP[day]})`;
   };
 
-  const wetherOneCall = async () => {
+
+  const wetherOneCall = async (position: {lat:number,lon:number}) => {
     await axios
       .get(
-        "https://api.openweathermap.org/data/2.5/onecall?lat=35.690&lon=139.692&lang=ja&units=metric&appid=ff86fbdda3c22e95ce0071f6a7826f6c"
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${position.lat}&lon=${position.lon}&lang=ja&units=metric&appid=ff86fbdda3c22e95ce0071f6a7826f6c`
       )
       .then((res) => {
         console.log(res);
@@ -117,7 +194,7 @@ function App() {
         const report = {
           time: `${mday(res.data.current.dt)} ${time(res.data.current.dt)}`,
           timezone: res.data.timezone,
-          temp:  res.data.current.temp,
+          temp: res.data.current.temp,
           feels_like: res.data.current.feels_like,
           wind_deg: get_wind_deg(res.data.current.wind_deg),
           wind_speed: res.data.current.wind_speed,
@@ -132,7 +209,7 @@ function App() {
             return {
               時間: `${hour(hourly.dt)}時`,
               気温: Math.round(hourly.temp * Math.pow(10, 1)) / Math.pow(10, 1),
-              降水確率: hourly.pop,
+              降水確率: hourly.pop * 100,
             };
           }
         );
@@ -144,12 +221,18 @@ function App() {
         setWeatherDailyReports(res.data.daily);
         console.log(hourlyreports);
         setWeatherHourlyReports(hourlyreports);
+      })
+      .catch((err) => {
+        alert(err.message);
+        console.log(err);
       });
   };
   return (
     <>
       <div className="App">
         <h1>天気予報</h1>
+        {loading ?  "現在地の天気を取得中..." : 
+        <div>
         <div className="upper">
           <div className="now-area">
             <div className="title">現在の天気</div>
@@ -195,7 +278,7 @@ function App() {
                       src={`http://openweathermap.org/img/wn/${report.weather[0].icon}@2x.png`}
                       alt="icon"
                       width={40}
-                    />
+                      />
                   </div>
                   <div className="daylyde">{report.weather[0].description}</div>
                   <div className="daylym">
@@ -207,10 +290,14 @@ function App() {
           </div>
         </div>
 
+
         <div className="hourly-area">
           <div className="title">1時間毎の天気予報</div>
           <LinePlot data={weatherHourlyReports} />
         </div>
+        </div>
+}
+    
       </div>
     </>
   );

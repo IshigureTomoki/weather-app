@@ -257,6 +257,7 @@ function App() {
                 <div className="title">現在の天気</div>
                 <div className="nowtime">{weatherReport?.time}</div>
                 <div className="nowplace">{`${reversePosition.province}，${reversePosition.suburb}`}</div>
+                <div>{`${reversePosition.province}，${reversePosition.suburb}`}</div>
                 <div className="nowtemps">
                   <div>
                     <img

@@ -13,7 +13,7 @@ function App() {
     lat: 35.69,
     lon: 139.692,
   });
-  const [reversePosition, setReversePosition] = useState({province:"",suburb:""});
+  
   // const dispatch = useDispatch();
 
   useEffect(() => {
@@ -172,7 +172,6 @@ function App() {
         console.log("aiueo");
         console.log(res);
         console.log(res.data.address);
-        setReversePosition(res.data.address);
       })
       .catch((err) => {
         alert(err.message);
@@ -256,7 +255,7 @@ function App() {
               <div className="now-area">
                 <div className="title">現在の天気</div>
                 <div className="nowtime">{weatherReport?.time}</div>
-                <div className="nowplace">{`${reversePosition.province}，${reversePosition.suburb}`}</div>
+                <div className="nowplace">{weatherReport?.timezone}</div>
                 <div className="nowtemps">
                   <div>
                     <img

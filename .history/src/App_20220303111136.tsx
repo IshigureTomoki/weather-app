@@ -13,7 +13,7 @@ function App() {
     lat: 35.69,
     lon: 139.692,
   });
-  const [reversePosition, setReversePosition] = useState({province:"",suburb:""});
+  const [reversePosition, setReversePosition] = useState({province"",suburb});
   // const dispatch = useDispatch();
 
   useEffect(() => {
@@ -256,7 +256,8 @@ function App() {
               <div className="now-area">
                 <div className="title">現在の天気</div>
                 <div className="nowtime">{weatherReport?.time}</div>
-                <div className="nowplace">{`${reversePosition.province}，${reversePosition.suburb}`}</div>
+                <div className="nowplace">{weatherReport?.timezone}</div>
+                <div>{reversePosition.province}</div>
                 <div className="nowtemps">
                   <div>
                     <img

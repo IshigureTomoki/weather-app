@@ -13,7 +13,6 @@ function App() {
     lat: 35.69,
     lon: 139.692,
   });
-  const [reversePosition, setReversePosition] = useState({province:"",suburb:""});
   // const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,7 +25,6 @@ function App() {
   useEffect(() => {
     if (!loading) {
       console.log(currentPosition);
-      openStreetMap(currentPosition);
       wetherOneCall(currentPosition);
     }
     // dispatch(fetchLocation())
@@ -130,7 +128,7 @@ function App() {
   const [weatherHourlyReports, setWeatherHourlyReports] = useState<
     weatherHourlyReportsType[]
   >([]);
-
+  const [serchCity, setSearchCity] = useState("");
 
   const time = (dt: number) => {
     const srTime = new Date(dt * 1000);
@@ -163,22 +161,9 @@ function App() {
     return `(${dayOfWeekStrJP[day]})`;
   };
 
-  const openStreetMap = async (position: { lat: number; lon: number }) => {
-    await axios
-      .get(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.lat}&lon=${position.lon}&zoom=18&addressdetails=1`
-      )
-      .then((res) => {
-        console.log("aiueo");
-        console.log(res);
-        console.log(res.data.address);
-        setReversePosition(res.data.address);
-      })
-      .catch((err) => {
-        alert(err.message);
-        console.log(err);
-      });
-  };
+  const openStreetMap = async()=>{
+    await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=35.681111&lon=139.766667&zoom=18&addressdetails=1`)
+  }.get()
 
   const wetherOneCall = async (position: { lat: number; lon: number }) => {
     await axios
@@ -256,7 +241,7 @@ function App() {
               <div className="now-area">
                 <div className="title">現在の天気</div>
                 <div className="nowtime">{weatherReport?.time}</div>
-                <div className="nowplace">{`${reversePosition.province}，${reversePosition.suburb}`}</div>
+                <div className="nowplace">{weatherReport?.timezone}</div>
                 <div className="nowtemps">
                   <div>
                     <img

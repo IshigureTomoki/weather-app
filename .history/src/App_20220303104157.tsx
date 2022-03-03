@@ -21,10 +21,10 @@ function App() {
     console.log(currentPosition);
     // dispatch(fetchLocation())
   }, []);
-
+  
   useEffect(() => {
     if (!loading) {
-      console.log(currentPosition);
+    console.log(currentPosition);
       wetherOneCall(currentPosition);
     }
     // dispatch(fetchLocation())
@@ -90,6 +90,7 @@ function App() {
   //   }
   // };
 
+
   const getCurrentPosition = (): any => {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
@@ -115,7 +116,7 @@ function App() {
       setCurrentPosition(new_currentPosition);
     } catch (error) {
       console.log(error);
-    } finally {
+    }finally{
       setLoading(false);
     }
   };
@@ -161,7 +162,8 @@ function App() {
     return `(${dayOfWeekStrJP[day]})`;
   };
 
-  const wetherOneCall = async (position: { lat: number; lon: number }) => {
+
+  const wetherOneCall = async (position: {lat:number,lon:number}) => {
     await axios
       .get(
         `https://api.openweathermap.org/data/2.5/onecall?lat=${position.lat}&lon=${position.lon}&lang=ja&units=metric&appid=ff86fbdda3c22e95ce0071f6a7826f6c`
@@ -229,79 +231,73 @@ function App() {
     <>
       <div className="App">
         <h1>天気予報</h1>
-        {loading ? (
-          "現在地の天気を取得中..."
-        ) : (
-          <div>
-            <div className="upper">
-              <div className="now-area">
-                <div className="title">現在の天気</div>
-                <div className="nowtime">{weatherReport?.time}</div>
-                <div className="nowplace">{weatherReport?.timezone}</div>
-                <div className="nowtemps">
-                  <div>
-                    <img
-                      src={weatherReport?.weatherIcon}
-                      alt="icon"
-                      width={120}
-                    />
+        {loading ?  "現在地の天気を取得中..." : 
+        <div>
+        <div className="upper">
+          <div className="now-area">
+            <div className="title">現在の天気</div>
+            <div className="nowtime">{weatherReport?.time}</div>
+            <div className="nowplace">{weatherReport?.timezone}</div>
+            <div className="nowtemps">
+              <div>
+                <img src={weatherReport?.weatherIcon} alt="icon" width={120} />
+              </div>
+              <div className="nowtemps2">
+                <div className="nowtemp">{weatherReport?.temp}℃</div>
+                <div className="nowdes">
+                  {weatherReport?.weatherDescription}
+                </div>
+              </div>
+            </div>
+            <dl>
+              <dt>体感温度</dt>
+              <dd>{weatherReport?.feels_like}℃</dd>
+              <dt>風向</dt>
+              <dd>{weatherReport?.wind_deg}</dd>
+              <dt>風速</dt>
+              <dd>{weatherReport?.wind_speed}m/s</dd>
+              <dt>気圧</dt>
+              <dd>{weatherReport?.pressure}hPa</dd>
+              <dt>湿度</dt>
+              <dd>{weatherReport?.humidity}%</dd>
+            </dl>
+          </div>
+
+          <div className="dayly-area">
+            <div className="title">8日間天気予報</div>
+
+            {weatherDailyReports.map((report) => (
+              <>
+                <div className="dayly">
+                  <div className="daylyd">
+                    {date(report.dt)}
+                    {dayOfWeekStr(report.dt)}
                   </div>
-                  <div className="nowtemps2">
-                    <div className="nowtemp">{weatherReport?.temp}℃</div>
-                    <div className="nowdes">
-                      {weatherReport?.weatherDescription}
-                    </div>
+                  <div className="daylyi">
+                    <img
+                      src={`http://openweathermap.org/img/wn/${report.weather[0].icon}@2x.png`}
+                      alt="icon"
+                      width={40}
+                      />
+                  </div>
+                  <div className="daylyde">{report.weather[0].description}</div>
+                  <div className="daylym">
+                    {report.temp.max}/{report.temp.min}℃
                   </div>
                 </div>
-                <dl>
-                  <dt>体感温度</dt>
-                  <dd>{weatherReport?.feels_like}℃</dd>
-                  <dt>風向</dt>
-                  <dd>{weatherReport?.wind_deg}</dd>
-                  <dt>風速</dt>
-                  <dd>{weatherReport?.wind_speed}m/s</dd>
-                  <dt>気圧</dt>
-                  <dd>{weatherReport?.pressure}hPa</dd>
-                  <dt>湿度</dt>
-                  <dd>{weatherReport?.humidity}%</dd>
-                </dl>
-              </div>
-
-              <div className="dayly-area">
-                <div className="title">8日間天気予報</div>
-
-                {weatherDailyReports.map((report) => (
-                  <>
-                    <div className="dayly">
-                      <div className="daylyd">
-                        {date(report.dt)}
-                        {dayOfWeekStr(report.dt)}
-                      </div>
-                      <div className="daylyi">
-                        <img
-                          src={`http://openweathermap.org/img/wn/${report.weather[0].icon}@2x.png`}
-                          alt="icon"
-                          width={40}
-                        />
-                      </div>
-                      <div className="daylyde">
-                        {report.weather[0].description}
-                      </div>
-                      <div className="daylym">
-                        {report.temp.max}/{report.temp.min}℃
-                      </div>
-                    </div>
-                  </>
-                ))}
-              </div>
-            </div>
-
-            <div className="hourly-area">
-              <div className="title">1時間毎の天気予報</div>
-              <LinePlot data={weatherHourlyReports} />
-            </div>
+              </>
+            ))}
           </div>
-        )}
+        </div>
+
+
+        <div className="hourly-area">
+          <div className="title">1時間毎の天気予報</div>
+          <LinePlot data={weatherHourlyReports} />
+        </div>
+        </div>
+}
+    
       </div>
     </>
   );

@@ -42,7 +42,7 @@ function App() {
         setCurrentPosition({lat:res.data[0].lat,lon:res.data[0].lon});
       })
       .catch((err) => {
-        alert("検索結果が見つかりません。キーワードを変更して検索してください。");
+        alert(err.message);
         console.log(err);
       });
   };
@@ -362,6 +362,7 @@ function App() {
                 <Map currentPosition={currentPosition} />
               </div>
             </div>
+            <Map currentPosition={currentPosition} />
 
             <div className="hourly-area">
               <div className="title">1時間毎の天気予報</div>

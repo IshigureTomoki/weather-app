@@ -30,6 +30,7 @@ function App() {
     if (searchText !== undefined) {
       console.log(searchText);
       searchAddress(searchText);
+      Map(searchText);
     }
   };
 

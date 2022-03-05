@@ -1,6 +1,6 @@
 import axios from "axios";
 import { report } from "process";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useDispatch } from "react-redux";
 import { convertTypeAcquisitionFromJson } from "typescript";
@@ -8,12 +8,9 @@ import "./App.css";
 import { LinePlot } from "./components/LinePlot";
 import { fetchLocation } from "./location/action";
 import { Map } from "./components/Map";
-import { Button } from "@mui/material";
-import styled from "styled-components";
+import { Button, styled } from "@mui/material";
 
 function App() {
-  const [searchText, setSearchText] = useState("");
-
   const [loading, setLoading] = useState(true);
   const [currentPosition, setCurrentPosition] = useState({
     lat: 35.69,
@@ -21,31 +18,6 @@ function App() {
   });
   const [reversePosition, setReversePosition] = useState("");
   // const dispatch = useDispatch();
-
-  const onChangeSearchText = useCallback((event: any) => {
-    setSearchText(event.target.value);
-    // console.log(searchText);
-  },[]);
-  const onClickSearchList = () => {
-    if (searchText !== undefined) {
-      console.log(searchText);
-      searchAddress(searchText);
-    }
-  };
-
-  const searchAddress = async (position: any) => {
-    await axios
-      .get(`https://nominatim.openstreetmap.org/search?q=${position}&format=jsonv2`)
-      .then((res) => {
-        console.log("Address");
-        console.log(res);
-        setCurrentPosition({lat:res.data[0].lat,lon:res.data[0].lon});
-      })
-      .catch((err) => {
-        alert("検索結果が見つかりません。キーワードを変更して検索してください。");
-        console.log(err);
-      });
-  };
 
   useEffect(() => {
     // geolocation();
@@ -61,7 +33,7 @@ function App() {
       wetherOneCall(currentPosition);
     }
     // dispatch(fetchLocation())
-  }, [loading,currentPosition]);
+  }, [loading]);
 
   type weatherReportType = {
     time: string;
@@ -281,17 +253,13 @@ function App() {
         <h1>天気予報</h1>
         <div>
           <SInput
-            placeholder="地域を入力してください"
-            value={searchText}
-            onChange={onChangeSearchText}
+            placeholder="タイトルを入力"
+            // value={searchText}
+            // onChange={onChangeSearchText}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={onClickSearchList}
-          >
-            検索
-          </Button>
+            <Button variant="contained" color="primary" onClick={onClickSearchList}>
+              検索
+            </Button>
         </div>
         {loading ? (
           "現在地の天気を取得中..."

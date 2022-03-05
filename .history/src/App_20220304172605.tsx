@@ -42,7 +42,7 @@ function App() {
         setCurrentPosition({lat:res.data[0].lat,lon:res.data[0].lon});
       })
       .catch((err) => {
-        alert("検索結果が見つかりません。キーワードを変更して検索してください。");
+        alert(err.message);
         console.log(err);
       });
   };
@@ -370,6 +370,7 @@ function App() {
           </div>
         )}
       </div>
+      <Map currentPosition={currentPosition} />
     </>
   );
 }

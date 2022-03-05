@@ -19,7 +19,7 @@ export const Map = (props: any) => {
 
   const { currentPosition } = props;
   const position = currentPosition;
-  const [zoom, setZoom] = useState(5);
+  const [zoom, setZoom] = useState(9);
   const markposition = {lat:position.lat,lon:position.lon}
 
   return (

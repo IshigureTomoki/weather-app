@@ -11,16 +11,12 @@ export const Map = (props: any) => {
   let DefaultIcon = Leaflet.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
-    iconSize: [25, 41],
-    iconAnchor: [10, 41],
-    popupAnchor: [2, -40]
   });
   Leaflet.Marker.prototype.options.icon = DefaultIcon;
 
   const { currentPosition } = props;
   const position = currentPosition;
   const [zoom, setZoom] = useState(5);
-  const markposition = {lat:position.lat,lon:position.lon}
 
   return (
     <div>

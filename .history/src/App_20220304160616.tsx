@@ -22,10 +22,8 @@ function App() {
   const [reversePosition, setReversePosition] = useState("");
   // const dispatch = useDispatch();
 
-  const onChangeSearchText = useCallback((event: any) => {
-    setSearchText(event.target.value);
-    // console.log(searchText);
-  },[]);
+  const onChangeSearchText = (event: any) => {setSearchText(event.target.value);
+  console.log(searchText)}
   const onClickSearchList = () => {
     if (searchText !== undefined) {
       console.log(searchText);
@@ -35,14 +33,13 @@ function App() {
 
   const searchAddress = async (position: any) => {
     await axios
-      .get(`https://nominatim.openstreetmap.org/search?q=${position}&format=jsonv2`)
+      .get(`https://nominatim.openstreetmap.org/search?q=${position}`)
       .then((res) => {
         console.log("Address");
         console.log(res);
-        setCurrentPosition({lat:res.data[0].lat,lon:res.data[0].lon});
       })
       .catch((err) => {
-        alert("検索結果が見つかりません。キーワードを変更して検索してください。");
+        alert(err.message);
         console.log(err);
       });
   };
@@ -61,7 +58,7 @@ function App() {
       wetherOneCall(currentPosition);
     }
     // dispatch(fetchLocation())
-  }, [loading,currentPosition]);
+  }, [loading]);
 
   type weatherReportType = {
     time: string;

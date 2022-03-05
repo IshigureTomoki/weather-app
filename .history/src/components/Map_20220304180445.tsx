@@ -11,9 +11,6 @@ export const Map = (props: any) => {
   let DefaultIcon = Leaflet.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
-    iconSize: [25, 41],
-    iconAnchor: [10, 41],
-    popupAnchor: [2, -40]
   });
   Leaflet.Marker.prototype.options.icon = DefaultIcon;
 
@@ -27,7 +24,7 @@ export const Map = (props: any) => {
       <MapContainer
         center={position}
         zoom={zoom}
-        style={{ height: "50vh", width: "400px" }}
+        style={{ height: "50vh", width: "100vw" }}
       >
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright";>OpenStreetMap</a> contributors'

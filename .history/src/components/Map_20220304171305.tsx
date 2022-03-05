@@ -11,16 +11,17 @@ export const Map = (props: any) => {
   let DefaultIcon = Leaflet.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
-    iconSize: [25, 41],
-    iconAnchor: [10, 41],
-    popupAnchor: [2, -40]
   });
   Leaflet.Marker.prototype.options.icon = DefaultIcon;
 
+  // const [position, setPosition] = useState({
+  //   lat: 35.69,
+  //   lng: 139.692,
+  // });
+
   const { currentPosition } = props;
   const position = currentPosition;
-  const [zoom, setZoom] = useState(5);
-  const markposition = {lat:position.lat,lon:position.lon}
+  const [zoom, setZoom] = useState(9);
 
   return (
     <div>
@@ -33,9 +34,9 @@ export const Map = (props: any) => {
           attribution='&amp;copy <a href="http://osm.org/copyright";>OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={position}>
+        <Marker         center={position}>
           <Popup>
-            {position.lat},{position.lon}
+            A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
       </MapContainer>

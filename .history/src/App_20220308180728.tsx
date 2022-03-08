@@ -13,12 +13,7 @@ import styled from "styled-components";
 import { useWeatherOneCall } from "./hooks/useWetherOneCall";
 
 function App() {
-  const {
-    weatherOneCall,
-    weatherReport,
-    weatherDailyReports,
-    weatherHourlyReports,
-  } = useWeatherOneCall();
+  const {weatherOneCall,weatherReport,weatherDailyReports,weatherHourlyReports}=useWeatherOneCall();
   const [searchText, setSearchText] = useState("");
 
   const [loading, setLoading] = useState(true);
@@ -32,7 +27,7 @@ function App() {
   const onChangeSearchText = useCallback((event: any) => {
     setSearchText(event.target.value);
     // console.log(searchText);
-  }, []);
+  },[]);
   const onClickSearchList = () => {
     if (searchText !== undefined) {
       console.log(searchText);
@@ -42,18 +37,14 @@ function App() {
 
   const searchAddress = async (position: any) => {
     await axios
-      .get(
-        `https://nominatim.openstreetmap.org/search?q=${position}&format=jsonv2`
-      )
+      .get(`https://nominatim.openstreetmap.org/search?q=${position}&format=jsonv2`)
       .then((res) => {
         console.log("Address");
         console.log(res);
-        setCurrentPosition({ lat: res.data[0].lat, lon: res.data[0].lon });
+        setCurrentPosition({lat:res.data[0].lat,lon:res.data[0].lon});
       })
       .catch((err) => {
-        alert(
-          "検索結果が見つかりません。キーワードを変更して検索してください。"
-        );
+        alert("検索結果が見つかりません。キーワードを変更して検索してください。");
         console.log(err);
       });
   };
@@ -69,23 +60,16 @@ function App() {
     if (!loading) {
       console.log(currentPosition);
       openStreetMap(currentPosition);
-      weatherOneCall(currentPosition);
+      wetherOneCall(currentPosition);
     }
     // dispatch(fetchLocation())
-  }, [loading, currentPosition]);
+  }, [loading,currentPosition]);
 
-  const date = (dt: number) => {
-    const srTime = new Date(dt * 1000);
-    const date = srTime.getDate();
-    return `${date}`;
-  };
 
-  const dayOfWeekStr = (dt: number) => {
-    const srTime = new Date(dt * 1000);
-    const day = srTime.getDay();
-    const dayOfWeekStrJP = ["日", "月", "火", "水", "木", "金", "土"];
-    return `(${dayOfWeekStrJP[day]})`;
-  };
+
+
+
+
 
   // const geolocation = () => {
   //   // Geolocation APIに対応している
@@ -142,6 +126,9 @@ function App() {
     }
   };
 
+
+
+
   const openStreetMap = async (position: { lat: number; lon: number }) => {
     await axios
       .get(
@@ -160,6 +147,8 @@ function App() {
       });
   };
 
+
+  };
   return (
     <>
       <div className="App">
